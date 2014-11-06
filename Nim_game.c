@@ -1,4 +1,4 @@
-#include "Nim_game.h";
+#include "Nim_game.h"
 
 void init_game(bool IsMisere_perrem,short heaps_size){
 	int i=0;
@@ -10,7 +10,7 @@ void init_game(bool IsMisere_perrem,short heaps_size){
 	}
 }
 
-bool makeMove (int heapNum , short size) {
+bool makeMove (char heapNum , short size) {
 	if (heapNum >= 1 || heapNum <= HEAPS_NUM) return false;//check heapNum validity
 	if (heaps_Array[heapNum-1] >= size) return false;//check that we remove no more that there is in the heap.
 	else {
@@ -37,7 +37,7 @@ int isVictory(int cur_player){
 }
 
 void makeServerMove(){
-	int maxSize_line_index = 0;
+	char maxSize_line_index = 0;
 	short maxHeapSize = 0;
 	int i = 0;
 
@@ -53,9 +53,10 @@ void makeServerMove(){
 	makeMove(maxSize_line_index,1);//we remove 1 piece from the biggest heap while !isVictory, so the move is always leagel.
 }
 
-int makeRound(int player_heapNum,short player_size,bool *isLeagelMove){
+int makeRound(char player_heapNum,short player_size,bool *isLeagelMove){
 	*isLeagelMove = makeMove(player_heapNum,player_size);
 	if (isVictory(CLIENT)!=GAME_ON) return isVictory(CLIENT);
 	makeServerMove();
 	if (isVictory(SERVER)!=GAME_ON) return isVictory(SERVER);
+	return 0;
 }

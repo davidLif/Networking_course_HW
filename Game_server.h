@@ -6,8 +6,10 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-#include "nim_protocol_flags.h"
+#include "socket_IO_tools.h"
+#include "nim_protocol_tools.h"
 #include "Nim_game.h"
 #include "utils.h"
 
@@ -21,7 +23,14 @@ bool checkServerArgsValidity(int argc ,const char* args[]);
 //On success return the listening socket number' of failure return NETWORK_FUNC_FAILURE;
 int initServer(int port);
 
-//make package for sending
-bool sendResultsOfRound(int socket);
+//make regular package for sending. int victory should be the reasult of makeRound(same format at least).
+//return false if successeded, else true
+bool sendResultsOfRound(int socket,bool last_time_validity,int victor);
 
-//parss recived package
+//special package
+//return false if successeded, else true
+bool sendGameDitails(int socket,bool isMisere);
+
+//parss recived package and fill player_heapNum and player_size
+//return false if successeded, else true
+bool reciveAndParse(int socket,char *player_heapNum,short *player_size);
