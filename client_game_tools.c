@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <netinet/in.h>
 #include "client_game_tools.h"
+#include "nim_protocol_tools.h"
 
 /* This unit is resposible for printing various game related information to the console for the user
    such as, titles, winner id, heap represtantion, etc

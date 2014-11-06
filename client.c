@@ -14,6 +14,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
+
 #include "nim_protocol_tools.h"
 #include "socket_IO_tools.h"
 #include "client_game_tools.h"
@@ -104,7 +105,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 	hints.ai_socktype = SOCK_STREAM;
 
 	/* fetch address of given host_name with given server_port */
-	if(err_code = getaddrinfo(host_name, server_port, &hints, &server_info))
+	if((err_code = getaddrinfo(host_name, server_port, &hints, &server_info)))
 	{
 		printf("%s: %s\n", ADDR_ERR, gai_strerror(err_code));
 		exit(0);
@@ -141,8 +142,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 void get_heap_sizes()
 {
 	// first receive the data from the server
-	int closed_connection;
-	unsigned char buffer[HEAP_MESSAGE_SIZE];
+	char buffer[HEAP_MESSAGE_SIZE];
 	read_server_message(buffer, HEAP_MESSAGE_SIZE);
 
 	// otherwise, we have successfully recieved heaps' sizes, print them
@@ -184,7 +184,7 @@ void read_server_message(char* buffer, int num_bytes)
 void play_nim()
 {
 	/* first byte of protocol */
-	unsigned char game_type;
+	char game_type;
 
 	/* print nim title */
 	print_title();
@@ -224,7 +224,7 @@ void play_nim()
 		handle_user_move();
 
 		// recieve status byte from server (one byte)
-		read_server_message(&game_status, sizeof(char));
+		read_server_message((char*)(&game_status), sizeof(char));
 
 	}
 
@@ -279,7 +279,7 @@ void handle_user_move()
 	}
 
 	// build request for server: heap number (byte), next one short: items_to_remove (network byte order)
-	unsigned char client_query[CLIENT_QUERY_SIZE];
+	char client_query[CLIENT_QUERY_SIZE];
 	client_query[0] = heap_num;
 	unsigned short* p = (unsigned short*)(client_query + 1);
 	p[0] = htons(items_to_remove);
