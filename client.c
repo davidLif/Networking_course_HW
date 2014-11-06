@@ -77,12 +77,7 @@ void read_program_input(int argc, char* argv[], char** host_name, char** server_
 			exit(0);
 		}
 	}
-	else
-	{
-		// no arguments were given
-		printf(INPUT_ERR);
-		exit(0);
-	}
+	
 }
 
 
