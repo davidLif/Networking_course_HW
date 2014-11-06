@@ -1,18 +1,24 @@
 /* this unit provides useful methods for handling socket IO and sockets in general*/
 #include "socket_IO_tools.h"
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/socket.h>
+
+
 /* 
 	this method tries to receive all the data given (*num_bytes)
-	upon return, *num_bytes will contain the actual number of bytes sent
+	
 	if the method failed, a positive value will be returned, on success 0 will be returned.
 	note that method might fail if connection on the other end was closed, in this case
 	*connection_closed will contain 1 (otherwise, 0)
 */
 
-int recv_all(int sockfd, const void* buffer, int* num_bytes, int* connection_closed)
+int recv_all(int sockfd, char* buffer, int num_bytes, int* connection_closed)
 {
 	int temp;
 	int total_recv = 0;
-	int left_to_recv = *num_bytes;
+	int left_to_recv = num_bytes;
 
 	while(left_to_recv > 0)
 	{
@@ -23,7 +29,7 @@ int recv_all(int sockfd, const void* buffer, int* num_bytes, int* connection_clo
 		left_to_recv -= temp;
 	}
 
-	*num_bytes = total_recv;
+	
 	
 	/* check if connection was closed, and set the given argument accordingly */
 	
@@ -36,17 +42,17 @@ int recv_all(int sockfd, const void* buffer, int* num_bytes, int* connection_clo
 /* 
 	method tries to send num_bytes from buffer, via sockfd
    returns 0 on success, or 1 if could not send all the data
-   upon return, *num_bytes will hold the actual number of bytes that were sent
+  
    if the other end was closed (EPIPE error), *connection_closed will contain 1 (otherwise 0)
    NOTE: send is called with MSG_NOSIGNAL, meaning, no signal will be recieved by the process
    use *connection_closed to determine that the connection was closed by other end 
    
    
 */
-int send_all(int sockfd, const void * buffer, int* num_bytes, int* connection_closed)
+int send_all(int sockfd, char* buffer, int num_bytes, int* connection_closed)
 {
 	int num_sent, total_sent = 0; 
-	int bytes_left = *num_bytes;
+	int bytes_left = num_bytes;
 
 	while(bytes_left > 0) {
 		/* send without recieved sigpipe signal */
@@ -59,8 +65,7 @@ int send_all(int sockfd, const void * buffer, int* num_bytes, int* connection_cl
 		total_sent += num_sent;
 		bytes_left -= num_sent;
 	}
-	// set how many bytes we've actually sent
-	*num_bytes = total_sent;
+	
 
 	if(num_sent == -1)
 	{
@@ -82,7 +87,7 @@ void close_socket(int sockfd)
 {
 	if(close(sockfd))
 	{
-		printf("%s: %s", CLOSE_SOCKET_ERR, strerr(errno));
+		printf("%s: %s", CLOSE_SOCKET_ERR, strerror(errno));
 	}
 	
 }

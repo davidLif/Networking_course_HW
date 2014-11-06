@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <limits.h>
 #include <errno.h>
+#include <stdlib.h>
 
 #include "nim_protocol_tools.h"
 #include "socket_IO_tools.h"
@@ -103,7 +104,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 	hints.ai_socktype = SOCK_STREAM;
 
 	/* fetch address of given host_name with given server_port */
-	if(err_code = getaddrinfo(host_name, server_port, &hints, &server_info)
+	if(err_code = getaddrinfo(host_name, server_port, &hints, &server_info))
 	{
 		printf("%s: %s\n", ADDR_ERR, gai_strerror(err_code));
 		exit(0);
@@ -114,7 +115,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 	sockfd = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 	if(sockfd  == -1)
 	{
-		printf("%s: %s", SOCKET_CREATE_ERR, strerr(errno));
+		printf("%s: %s", SOCKET_CREATE_ERR, strerror(errno));
 		freeaddrinfo(server_info);
 		exit(0);
 	}
@@ -123,7 +124,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 	if(connect(sockfd, server_info->ai_addr, server_info->ai_addrlen) == -1)
 	{
 		/* failed to connect to server, free resources */
-		printf("%s: %s", CONNECT_ERR, strerr(errno));
+		printf("%s: %s", CONNECT_ERR, strerror(errno));
 		freeaddrinfo(server_info);
 		quit();
 
@@ -155,7 +156,7 @@ void get_heap_sizes()
 	if any other error occured, a proper message will be printed
 	in anycase, the global socket descriptor will be closed and program terminated 
 */
-void read_server_message(const char* buffer, int num_bytes)
+void read_server_message(char* buffer, int num_bytes)
 {
 	int closed_connection = 0 ; // flag to indicate that the server has closed its connection
 	if(recv_all(sockfd, buffer, num_bytes, &closed_connection))
@@ -167,7 +168,7 @@ void read_server_message(const char* buffer, int num_bytes)
 			print_closed_connection();
 		}
 		else /* different error */
-			printf("Failed to receive data: %s\n", strerr(errno));
+			printf("Failed to receive data: %s\n", strerror(errno));
 		
 		quit();
 	}
@@ -289,13 +290,13 @@ void handle_user_move()
 	if(send_all(sockfd, client_query, CLIENT_QUERY_SIZE, &connection_closed))
 	{
 		// error
-		if(closed_connection)
+		if(connection_closed)
 		{
 			/* other end was closed. */
 			print_closed_connection();
 		}
 		else {
-			printf("%s: %s\n", SEND_ERR, strerr(errno));
+			printf("%s: %s\n", SEND_ERR, strerror(errno));
 		}
 		quit();
 		

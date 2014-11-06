@@ -7,7 +7,7 @@
 														  first byte: number of heap (0 is the left most, 3 is the right most)
 												          1 short : amount to remove from heap
 											            */
-#define HEAP_MESSAGE_SIZE   (4*sizeof(short)			/* size of the message from server that describes the heaps' sizes (4 shorts) */
+#define HEAP_MESSAGE_SIZE   (4*sizeof(short))			/* size of the message from server that describes the heaps' sizes (4 shorts) */
                                
 
 /* container - single byte that is passed in the beginning of each (except the first) message to the client (from server)*/
@@ -22,4 +22,4 @@ void init_container(unsigned char* container);
 /* get flags' values from the container */
 int hasServerWon(unsigned char container);
 int lastMessageAcked(unsigned char container);
-int hasGameEnded(unsigned char container)
+int hasGameEnded(unsigned char container);
