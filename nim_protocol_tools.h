@@ -1,18 +1,13 @@
-/* define message sizes, used in the protocol*/
 
-#define FIRST_MESSAGE_SIZE 1                       /* first message sent by the server (0 - regular, 1 - Misere */
-#define SRV_RESPONSE_SIZE (1 + 4*sizeof(short))    /* response sent by the server, format:
-                                                      first byte - flags (container):
-																	least significant bit (1st bit): 1 iff last message sent to server was valid and accpeted
-																	2nd bit:  1 iff the game ended
-																	3nd bit:  if 2nd bit is 1 (game ended), contains who won (0 - client won, 1 - server won)
-												      4 shorts - short i contains the number of items in stack i (first short recieved is stack 0, left most)
-											       */
+/* this unit defines protocol messages sizes, and provides various methods to the container byte
+   a single byte that contains various game status flags, that is passed in the beginning of each
+   server response to the client (except the first message to the client), as defined in the protocol*/
+
 #define CLIENT_QUERY_SIZE    (1 + sizeof(short))	   /* query sent to the server at client's turn, format:
-														  first byte: number of stack (0 is the left most, 3 is the right most)
-												          1 short : amount to remove from stack
+														  first byte: number of heap (0 is the left most, 3 is the right most)
+												          1 short : amount to remove from heap
 											            */
-#define STACK_MESSAGE_SIZE   (4*sizeof(short)
+#define HEAP_MESSAGE_SIZE   (4*sizeof(short)			/* size of the message from server that describes the heaps' sizes (4 shorts) */
                                
 
 /* container - single byte that is passed in the beginning of each (except the first) message to the client (from server)*/

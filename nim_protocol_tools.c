@@ -1,6 +1,9 @@
 #include "nim_protocol_tools.h"
 
-/* container - single byte that is passed in the beginning of each (regular) message to the client */
+/* this unit defines protocol messages sizes, and provides various methods to the container byte
+   a single byte that contains various game status flags, that is passed in the beginning of each
+   server response to the client (except the first message to the client), as defined in the protocol
+*/
 
 /* number of bit shifts required to get the flags */
 #define ACK_NUM_SHIFTS 0
@@ -27,7 +30,12 @@ int hasServerWon(unsigned char container)
 }
 
 
-/* reset container */
+/* reset container
+   by default, the flags are set to:
+		game continues
+		last client query was not acked
+		
+*/
 void init_container(unsigned char* container)
 {
 	/* no ack, game continues */

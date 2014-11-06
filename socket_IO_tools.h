@@ -1,3 +1,6 @@
+/* this unit provides useful methods for handling socket IO */
+
+
 /* 
 	this method tries to receive all the data given (*num_bytes)
 	upon return, *num_bytes will contain the actual number of bytes sent
@@ -9,7 +12,7 @@
 int recv_all(int sockfd, const void* buffer, int* num_bytes, int* connection_closed);
 
 /* 
-	method tries to send num_bytes from buffer, via sockfd
+   method tries to send num_bytes from buffer, via sockfd
    returns 0 on success, or 1 if could not send all the data
    upon return, *num_bytes will hold the actual number of bytes that were sent
    if the other end was closed (EPIPE error), *connection_closed will contain 1 (otherwise 0)
@@ -19,3 +22,9 @@ int recv_all(int sockfd, const void* buffer, int* num_bytes, int* connection_clo
    
 */
 int send_all(int sockfd, const void * buffer, int* num_bytes, int* connection_closed);
+
+
+/* 
+	method tries to close given socket, prints messsage on error 
+*/
+void close_socket(int sockfd);

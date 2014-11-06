@@ -1,5 +1,5 @@
+/* this unit provides useful methods for handling socket IO and sockets in general*/
 #include "socket_IO_tools.h"
-
 /* 
 	this method tries to receive all the data given (*num_bytes)
 	upon return, *num_bytes will contain the actual number of bytes sent
@@ -71,5 +71,18 @@ int send_all(int sockfd, const void * buffer, int* num_bytes, int* connection_cl
 
 	return 0;
 
+	
+}
+
+/* 
+	method tries to close given socket, prints messsage on error 
+*/
+#define CLOSE_SOCKET_ERR "Error while closing socket"
+void close_socket(int sockfd)
+{
+	if(close(sockfd))
+	{
+		printf("%s: %s", CLOSE_SOCKET_ERR, strerr(errno));
+	}
 	
 }
