@@ -119,6 +119,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 	/* connect to server */
 	if(connect(sockfd, server_info->ai_addr, server_info->ai_addrlen) == -1)
 	{
+		printf("hi\n");
 		/* failed to connect to server, free resources */
 		printf("%s: %s", CONNECT_ERR, strerror(errno));
 		freeaddrinfo(server_info);
@@ -141,7 +142,7 @@ void get_heap_sizes()
 	read_server_message(buffer, HEAP_MESSAGE_SIZE);
 
 	// otherwise, we have successfully recieved heaps' sizes, print them
-	print_heaps((unsigned short*)buffer);
+	print_heaps((short*)buffer);
 
 }
 
@@ -220,7 +221,7 @@ void play_nim()
 
 		// recieve status byte from server (one byte)
 		read_server_message((char*)(&game_status), sizeof(char));
-
+		//printf("the game status byte is %i \n", game_type);
 	}
 
 	/* if we have reached this part, game has ended, print the winner's text */
@@ -246,6 +247,7 @@ void handle_user_move()
 	if(scanf("%c", &req) != 1)
 	{
 		printf(USER_INPUT_ERR);
+		printf("%i\n", req);
 		quit();
 	}
 	if(req == 'Q')
@@ -262,6 +264,7 @@ void handle_user_move()
 	{
 		// error, invalid input
 		printf(USER_INPUT_ERR);
+		printf("%i\n", req);
 		quit();
 	}
 	
@@ -270,14 +273,15 @@ void handle_user_move()
 	if(scanf("%hu", &items_to_remove) != 1)
 	{
 		printf(USER_INPUT_ERR);
+		printf("%i\n", items_to_remove);
 		quit();
 	}
 
 	// build request for server: heap number (byte), next one short: items_to_remove (network byte order)
 	char client_query[CLIENT_QUERY_SIZE];
 	client_query[0] = heap_num;
-	unsigned short* p = (unsigned short*)(client_query + 1);
-	p[0] = htons(items_to_remove);
+	short* p = (short*)(client_query + 1);//unsigned
+	p[0] = items_to_remove;//htons(items_to_remove)
 
 	int connection_closed;
 

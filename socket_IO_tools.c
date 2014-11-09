@@ -31,7 +31,6 @@ int recv_all(int sockfd, char* buffer, int num_bytes, int* connection_closed)
 	}
 
 	
-	
 	/* check if connection was closed, and set the given argument accordingly */
 	
 	*connection_closed = (temp == 0 ? 1 : 0);

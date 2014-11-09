@@ -7,9 +7,9 @@
 #define SERVER -1
 
 //this array holds the game heaps
-short heaps_Array[HEAPS_NUM];
+extern short heaps_Array[HEAPS_NUM];
 //this variable tells us what kind of victory this is.
-bool IsMisere;
+extern bool IsMisere;
 
 
 //this function will fill IsMisere and heap with values

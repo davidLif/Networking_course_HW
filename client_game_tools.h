@@ -8,5 +8,5 @@ void print_title(void);
 void print_winner(unsigned char game_status);
 void print_message_acked(unsigned char game_status);
 void print_turn_message(void);
-void print_heaps(unsigned short* heaps);
+void print_heaps(short* heaps);
 void print_closed_connection(void);

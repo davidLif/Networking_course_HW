@@ -1,9 +1,14 @@
 #include "Nim_game.h"
 
+//this array holds the game heaps
+short heaps_Array[HEAPS_NUM];
+//this variable tells us what kind of victory this is.
+bool IsMisere;
+
 void init_game(bool IsMisere_perrem,short heaps_size){
 	int i=0;
 
-	short heaps_init_size = heaps_init_size ;
+	short heaps_init_size = heaps_size ;
 	IsMisere = IsMisere_perrem ;
 	for ( i=0 ; i<HEAPS_NUM ; i++) {//init heaps with proper size
 		heaps_Array[i] = heaps_init_size;
@@ -11,10 +16,11 @@ void init_game(bool IsMisere_perrem,short heaps_size){
 }
 
 bool makeMove (char heapNum , short size) {
-	if (heapNum >= 1 || heapNum <= HEAPS_NUM) return false;//check heapNum validity
-	if (heaps_Array[heapNum-1] >= size) return false;//check that we remove no more that there is in the heap.
+	int int_heapNum=(int)heapNum;
+	if (int_heapNum < 0 || int_heapNum > HEAPS_NUM-1) return false;//check heapNum validity
+	if (heaps_Array[int_heapNum] < size) return false;//check that we remove no more that there is in the heap.
 	else {
-		heaps_Array[heapNum-1]=heaps_Array[heapNum-1]-size;//make move
+		heaps_Array[int_heapNum]=heaps_Array[int_heapNum]-size;//make move
 		return true;
 	}
 }
@@ -43,8 +49,8 @@ void makeServerMove(){
 
 	//check all heaps, to find max size
 	for ( i = 0 ; i < HEAPS_NUM ; i++){
-		if (maxHeapSize <= heaps_Array[i-1]) {//if the heaps size is bigger than what we saw before (or equal).
-			maxHeapSize = heaps_Array[i-1];
+		if (maxHeapSize <= heaps_Array[i]) {//if the heaps size is bigger than what we saw before (or equal).
+			maxHeapSize = heaps_Array[i];
 			//because we enter the if even if heaps size is equal to what we saw before and with each iteration the index grows, 
 			//	if there are several heaps with the max size, maxSize_line_index will save the one with the max index.
 			maxSize_line_index = i;

@@ -34,3 +34,5 @@ bool sendGameDitails(int socket,bool isMisere);
 //parss recived package and fill player_heapNum and player_size
 //return false if successeded, else true
 bool reciveAndParse(int socket,char *player_heapNum,short *player_size);
+
+bool checkServerArgsValidity(int argc,const char* argv[]);

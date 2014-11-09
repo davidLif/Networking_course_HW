@@ -44,10 +44,12 @@ void print_message_acked(unsigned char game_status)
 {
 	if(lastMessageAcked(game_status))
 	{
-		printf(MESSAGE_ACKED_STR);
+		//printf(MESSAGE_ACKED_STR);
+		printf(MESSAGE_DECLINED_STR);//if zero n the LSB - than the move is leagel by the protocol.
 	}
 	else
-		printf(MESSAGE_DECLINED_STR);
+		printf(MESSAGE_ACKED_STR);
+		//printf(MESSAGE_DECLINED_STR);
 }
 
 #define TURN_STR "Your turn:\n"
@@ -61,9 +63,9 @@ void print_turn_message()
 	input: heaps - array of four shorts in NETWORK byte order
 */
 
-void print_heaps(unsigned short* heaps)
-{
-	printf("Heap sizes are %d, %d, %d, %d\n", ntohs(heaps[0]), ntohs(heaps[1]), ntohs(heaps[2]), ntohs(heaps[3]));
+void print_heaps(short* heaps)
+{//ntohs didn't work. just heaps[i] worked.TODO find why
+	printf("Heap sizes are %d, %d, %d, %d\n", heaps[0], heaps[1], heaps[2], heaps[3]);
 	
 }
 #define DISCONNECTED_STR "Disconnected from server\n"
