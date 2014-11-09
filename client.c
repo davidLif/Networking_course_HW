@@ -25,12 +25,13 @@
 
 
 /* various messages used in this file */
-#define INPUT_ERR       "Error: invalid arguments\n"
-#define ADDR_ERR        "Error: could not retrieve server IPv4 address\n"
+#define INPUT_ERR         "Error: invalid arguments\n"
+#define ADDR_ERR          "Error: could not retrieve server IPv4 address\n"
 #define SOCKET_CREATE_ERR "Error: Failed to create socket"
-#define CONNECT_ERR     "Error: Failed to connect to server"
-#define USER_INPUT_ERR  "Error: could not read input from user\n"
-#define SEND_ERR        "Failed to send data"
+#define CONNECT_ERR       "Error: Failed to connect to server"
+#define USER_INPUT_ERR    "Error: Could not read input from user\n"
+#define SEND_ERR          "Error: Failed to send data to server"
+#define RECV_ERR          "Error: Failed to recieve data from server"
 
 
 static int sockfd; /* socket to connect to the server, global (private) variable */
@@ -119,7 +120,6 @@ void connect_to_server(const char* host_name, const char* server_port)
 	/* connect to server */
 	if(connect(sockfd, server_info->ai_addr, server_info->ai_addrlen) == -1)
 	{
-		printf("hi\n");
 		/* failed to connect to server, free resources */
 		printf("%s: %s", CONNECT_ERR, strerror(errno));
 		freeaddrinfo(server_info);
@@ -139,8 +139,15 @@ void get_heap_sizes()
 {
 	// first receive the data from the server
 	char buffer[HEAP_MESSAGE_SIZE];
+
+	//
+
+	printf("TRY TO GET STACKS\n");
+
+	//
 	read_server_message(buffer, HEAP_MESSAGE_SIZE);
 
+	printf("client heap 1 : %d\n", ((short*)buffer)[0]);
 	// otherwise, we have successfully recieved heaps' sizes, print them
 	print_heaps((short*)buffer);
 
@@ -155,6 +162,7 @@ void get_heap_sizes()
 void read_server_message(char* buffer, int num_bytes)
 {
 	int closed_connection = 0 ; // flag to indicate that the server has closed its connection
+	printf("TRY TO GET STACKS\n");
 	if(recv_all(sockfd, buffer, num_bytes, &closed_connection))
 	{
 		// error
@@ -164,10 +172,11 @@ void read_server_message(char* buffer, int num_bytes)
 			print_closed_connection();
 		}
 		else /* different error */
-			printf("Failed to receive data: %s\n", strerror(errno));
+			printf("%s: %s\n", RECV_ERR, strerror(errno));
 		
 		quit();
 	}
+	printf("TRY TO GET STACKS*\n");
 }
 
 /* 
@@ -197,11 +206,8 @@ void play_nim()
 	 */
 	unsigned char game_status;	 
 	int first = 1;	/* simple flag to indiciate whether it is the first time we're printing the heaps */
-	
-	/* reset game_status (game has not ended), cannot end when no one has made a move */
-	init_container(&game_status);
 
-	while(!hasGameEnded(game_status))
+	do
 	{
 		if(first)
 		{
@@ -221,10 +227,12 @@ void play_nim()
 
 		// recieve status byte from server (one byte)
 		read_server_message((char*)(&game_status), sizeof(char));
-		//printf("the game status byte is %i \n", game_type);
-	}
 
-	/* if we have reached this part, game has ended, print the winner's text */
+	} while(!hasGameEnded(game_status));
+
+	/* if we have reached this part, game has ended, print the last messages */
+	print_message_acked(game_status);
+	get_heap_sizes();
 	print_winner(game_status);
 	return;
 	
@@ -244,10 +252,9 @@ void handle_user_move()
 
 	print_turn_message();
 
-	if(scanf("%c", &req) != 1)
+	if(scanf("%s", &req) != 1)
 	{
 		printf(USER_INPUT_ERR);
-		printf("%i\n", req);
 		quit();
 	}
 	if(req == 'Q')
@@ -264,7 +271,6 @@ void handle_user_move()
 	{
 		// error, invalid input
 		printf(USER_INPUT_ERR);
-		printf("%i\n", req);
 		quit();
 	}
 	
@@ -273,15 +279,14 @@ void handle_user_move()
 	if(scanf("%hu", &items_to_remove) != 1)
 	{
 		printf(USER_INPUT_ERR);
-		printf("%i\n", items_to_remove);
 		quit();
 	}
 
 	// build request for server: heap number (byte), next one short: items_to_remove (network byte order)
 	char client_query[CLIENT_QUERY_SIZE];
 	client_query[0] = heap_num;
-	short* p = (short*)(client_query + 1);//unsigned
-	p[0] = items_to_remove;//htons(items_to_remove)
+	unsigned short* p = (unsigned short*)(client_query + 1);
+	p[0] = htons(items_to_remove);
 
 	int connection_closed;
 

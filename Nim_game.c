@@ -16,11 +16,11 @@ void init_game(bool IsMisere_perrem,short heaps_size){
 }
 
 bool makeMove (char heapNum , short size) {
-	int int_heapNum=(int)heapNum;
+	int int_heapNum=(int)heapNum; /* this is actualy problamatic, if we allow more than 128 heaps, char will overflow to negative value */
 	if (int_heapNum < 0 || int_heapNum > HEAPS_NUM-1) return false;//check heapNum validity
 	if (heaps_Array[int_heapNum] < size) return false;//check that we remove no more that there is in the heap.
 	else {
-		heaps_Array[int_heapNum]=heaps_Array[int_heapNum]-size;//make move
+		heaps_Array[int_heapNum] -=size;//make move
 		return true;
 	}
 }
@@ -60,6 +60,7 @@ void makeServerMove(){
 }
 
 int makeRound(char player_heapNum,short player_size,bool *isLeagelMove){
+	// change makeMove to makeClientMove
 	*isLeagelMove = makeMove(player_heapNum,player_size);
 	if (isVictory(CLIENT)!=GAME_ON) return isVictory(CLIENT);
 	makeServerMove();

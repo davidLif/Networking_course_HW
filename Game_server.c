@@ -2,13 +2,16 @@
 
 int main( int argc, const char* argv[] ){
 	int port=6423;//set the port to default
-	short M;//initial heaps size
+	short M;	  //initial heaps size
+
 	//there will be two sockets- one listening at the port and one to comunicate with the server.
 	int listeningSoc,toClientSocket;
 	bool input_isMisere;
 	struct sockaddr_in clientAdderInfo;
 	bool error = false;
-	int victor = 0;
+	int victor = 0; /* please change with definitions, what does 0 mean ? */
+
+
 	socklen_t addressSize = sizeof(clientAdderInfo);//WTF why pointer??
 
 	if (!checkServerArgsValidity(argc ,argv)){//check the validity of the argument given by the user.
@@ -23,10 +26,12 @@ int main( int argc, const char* argv[] ){
 	printf("%d\n", M);
 	if (atoi(argv[2]) == 0)	input_isMisere=false;
 	else input_isMisere=true;
-	if (argc==4) port=atoi(argv[3]);//save port number' if given by the user
+	if (argc==4) port=atoi(argv[3]);//save port number if given by the user
 	
+
+
 	listeningSoc=initServer(port);//init the server
-	printf("init_server\n");
+	printf("init_server socket: %d, port: %d\n", listeningSoc, port);
 	toClientSocket=accept(listeningSoc,(struct sockaddr*) &clientAdderInfo,&addressSize);
 	init_game(input_isMisere,M);//init the game
 	printf("init_game\n");
@@ -35,7 +40,7 @@ int main( int argc, const char* argv[] ){
 	//play
 	error = sendGameDitails(toClientSocket,input_isMisere);
 	while(victor == 0 && error ==false){
-		bool isLeagelMove=false,error;
+		bool isLeagelMove=false;
 		char player_heapNum;
 		short player_size;
 
@@ -44,12 +49,14 @@ int main( int argc, const char* argv[] ){
 		error = reciveAndParse(toClientSocket,&player_heapNum,&player_size);
 		if (error) break;
 		//make client and server move
-		printf("%i\n", player_heapNum);
-		printf("%i \n", player_size);
-		victor = makeRound(player_heapNum,player_size,&isLeagelMove);
-		//printf("%i after sub\n", heaps_Array[3]);
+		
+		victor = makeRound(player_heapNum, player_size, &isLeagelMove);
+		printf("Player request: heap: %d num: %d, move legal: %d\n", player_heapNum, player_size, isLeagelMove);
+		printf("Current heap at serverside, 2nd heap: %d\n", heaps_Array[1]);
+
 		//send game information to the client
-		error = sendResultsOfRound(toClientSocket,isLeagelMove,victor);
+		error = sendResultsOfRound(toClientSocket, isLeagelMove, victor);
+		printf("Sent all results\n");
 	}
 	close(toClientSocket);
 	close(listeningSoc);
@@ -95,25 +102,28 @@ bool reciveAndParse(int socket,char *player_heapNum,short *player_size){
 		printf("rec OK\n");
 	}
 	*player_heapNum = messageBuffer[0];
-	//printf("%i\n", *player_heapNum);
-	*player_size = bytesArrayIntoShort(messageBuffer + 1);
-	//printf("%i\n", *player_size);
+	printf("%d\n", *player_heapNum);
+	*player_size = ntohs(((short*)(messageBuffer+1))[0]);
+	printf("%hd\n", *player_size);
 	return false;
 }
 
 bool sendGameDitails(int socket,bool isMisere){
-	char *sendBuffer=calloc(9,sizeof(char));
+	char sendBuffer[9];
 	int isConnectionClosed, bytesSent = 9;
 	//short test;
 
 	//init first byte with isMisere status.
-	init_container((unsigned char *)sendBuffer);
-	if (isMisere) sendBuffer[0]=1; //not need for else since init_container filled the first char with 0.
-
-	//fill the rest of the message (only if nedded)
-	for (int i=0;i<HEAPS_NUM;i++){
-		shortIntoBytesArray(heaps_Array[i],sendBuffer+i*2+1);//fiil the heap sizes
-		
+	
+	if (isMisere) sendBuffer[0]=1; 
+	else sendBuffer[0] = 0;
+	
+	
+	
+	short* heap_sizes = (short*)(sendBuffer+1);
+	for(int i = 0; i < HEAPS_NUM; ++i)
+	{
+		heap_sizes[i] = htons(heaps_Array[i]);
 	}
 	//send 
 	int error = send_all(socket,sendBuffer,bytesSent,&isConnectionClosed);
@@ -127,45 +137,51 @@ bool sendGameDitails(int socket,bool isMisere){
 }
 
 bool sendResultsOfRound(int socket,bool last_time_validity,int victor){
-	char *sendBuffer=NULL;
-	int isConnectionClosed, bytesSent=1;
+	char sendBuffer[9];
+	// dont use calloc
+	int isConnectionClosed, bytesSent=9;
 
-	//This code chunk fill the first byte with all the nessecery information and will allocate the buffer.
-	switch (victor){//fill game over and  who's victory
+	unsigned char flag_container = sendBuffer[0];
+	short* heap_sizes = (short*)(sendBuffer+1);
+	// init container byte, contains game flags and information
+	init_container(&flag_container);
+
+	//This code chunk fills the first byte with all the nessecery information 
+	switch (victor){
+		//fill game over and  who's victory
 		case CLIENT:
-			sendBuffer=calloc(1,sizeof(char));
-			init_container((unsigned char *)sendBuffer);
-			setClientWon((unsigned char *)sendBuffer);
+			
+		
+			setClientWon(&flag_container);
 			break;
 		case SERVER:
-			sendBuffer=calloc(1,sizeof(char));
-			init_container((unsigned char *)sendBuffer);
-			setServerWon((unsigned char *)sendBuffer);
+			
+			
+			setServerWon(&flag_container);
 			break;
-		default://must be GAME_ON
-			//we will have send the "status byte"(the first byte) and the heaps sizes.
-			sendBuffer=calloc(9,sizeof(char));
-			bytesSent = 9;
-			//we will fill the first byte with zero's. 
-			//if the game is on than the only 1 possibale is the validity of the previous move,
-			//	 which we will fill later.
-			init_container((unsigned char *)sendBuffer);
+		default:
+			// don't turn on game over flag
+			break;
+		
 	}
+	// shouldn't it be, last_time_validity == true iff last time was valid?
 	if (!last_time_validity)//if the previous move was correct' set proper bit in message.
 	{
-		ackClientMessage((unsigned char *)sendBuffer);
+		ackClientMessage(&flag_container);
 	}
-
-	//fill the rest of the message (only if nedded)
-	for (int i = 0 ;i < HEAPS_NUM && victor == GAME_ON ; i++){
-		shortIntoBytesArray(heaps_Array[i],sendBuffer+i*2+1);//fiil the heap sizes
+	
+	//fill the rest of the message (heap sizes)
+	for (int i = 0 ;i < HEAPS_NUM ; i++){
+		heap_sizes[i] = htons(heaps_Array[i]);
 	}
 
 	//sent
+	
 	int error = send_all(socket,sendBuffer,bytesSent,&isConnectionClosed);
+	printf("SENT STACKS\n");
 	if (error == 1) //if there is error
 	{
-		/* We should deside what should I do. */
+		printf("sending error\n");
 		return true;
 	}
 	return false;
