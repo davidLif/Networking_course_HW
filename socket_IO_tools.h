@@ -1,5 +1,6 @@
 /* this unit provides useful methods for handling socket IO */
 
+#define SERVER_MESSAGE_SIZE 9
 
 /* 
 	this method tries to receive all the data given (*num_bytes)

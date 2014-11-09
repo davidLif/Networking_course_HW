@@ -140,14 +140,8 @@ void get_heap_sizes()
 	// first receive the data from the server
 	char buffer[HEAP_MESSAGE_SIZE];
 
-	//
-
-	printf("TRY TO GET STACKS\n");
-
-	//
 	read_server_message(buffer, HEAP_MESSAGE_SIZE);
 
-	printf("client heap 1 : %d\n", ((short*)buffer)[0]);
 	// otherwise, we have successfully recieved heaps' sizes, print them
 	print_heaps((short*)buffer);
 
@@ -162,7 +156,6 @@ void get_heap_sizes()
 void read_server_message(char* buffer, int num_bytes)
 {
 	int closed_connection = 0 ; // flag to indicate that the server has closed its connection
-	printf("TRY TO GET STACKS\n");
 	if(recv_all(sockfd, buffer, num_bytes, &closed_connection))
 	{
 		// error
@@ -176,7 +169,6 @@ void read_server_message(char* buffer, int num_bytes)
 		
 		quit();
 	}
-	printf("TRY TO GET STACKS*\n");
 }
 
 /* 

@@ -30,7 +30,7 @@ void print_title(void)
 #define CLIENT_WON_STR "You win!\n"
 void print_winner(unsigned char game_status)
 {
-	if(hasServerWon(game_status))
+	if(hasServerWon(game_status) == 1)
 	{
 		printf(SERVER_WON_STR);
 	}
@@ -44,12 +44,10 @@ void print_message_acked(unsigned char game_status)
 {
 	if(lastMessageAcked(game_status))
 	{
-		//printf(MESSAGE_ACKED_STR);
-		printf(MESSAGE_DECLINED_STR);
+		printf(MESSAGE_ACKED_STR);
 	}
 	else
-		printf(MESSAGE_ACKED_STR);
-		//printf(MESSAGE_DECLINED_STR);
+		printf(MESSAGE_DECLINED_STR);
 }
 
 #define TURN_STR "Your turn:\n"
