@@ -235,7 +235,7 @@ void play_nim()
 /*
 	this method reads heap number (starts from 0, meaning left most) and number of items to remove from heap
 	method then sends this request (following the protocol) to the server
-	if any error occures (sending error, input error) a proper message is printed and method terminated)
+	if any error occures (sending error, input error) a proper message is printed and method is terminated
 */
 
 void handle_user_move()
