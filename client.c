@@ -29,7 +29,7 @@
 #define ADDR_ERR          "Error: could not retrieve server IPv4 address\n"
 #define SOCKET_CREATE_ERR "Error: Failed to create socket"
 #define CONNECT_ERR       "Error: Failed to connect to server"
-#define USER_INPUT_ERR    "Error: Could not read input from user\n"
+#define USER_INPUT_ERR    "Error: invalid arguments given by user\n"
 #define SEND_ERR          "Error: Failed to send data to server"
 #define RECV_ERR          "Error: Failed to recieve data from server"
 
@@ -112,7 +112,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 	sockfd = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 	if(sockfd  == -1)
 	{
-		printf("%s: %s", SOCKET_CREATE_ERR, strerror(errno));
+		printf("%s: %s\n", SOCKET_CREATE_ERR, strerror(errno));
 		freeaddrinfo(server_info);
 		exit(0);
 	}
@@ -121,7 +121,7 @@ void connect_to_server(const char* host_name, const char* server_port)
 	if(connect(sockfd, server_info->ai_addr, server_info->ai_addrlen) == -1)
 	{
 		/* failed to connect to server, free resources */
-		printf("%s: %s", CONNECT_ERR, strerror(errno));
+		printf("%s: %s\n", CONNECT_ERR, strerror(errno));
 		freeaddrinfo(server_info);
 		quit();
 
@@ -249,6 +249,7 @@ void handle_user_move()
 		printf(USER_INPUT_ERR);
 		quit();
 	}
+	
 	if(req == 'Q')
 	{
 		quit();
@@ -257,7 +258,7 @@ void handle_user_move()
 	unsigned char heap_num = 0;
 	if(req == 'A' || req == 'B' || req == 'C' || req == 'D')
 	{
-		heap_num = req - 'A';
+		heap_num = (unsigned char)(req - 'A');
 	}
 	else
 	{
@@ -268,11 +269,22 @@ void handle_user_move()
 	
 	// read number of items to remove
 	unsigned short items_to_remove;
-	if(scanf("%hu", &items_to_remove) != 1)
+	long temp; 
+
+	if(scanf("%ld", &temp) != 1)
 	{
 		printf(USER_INPUT_ERR);
 		quit();
 	}
+
+	// determine if the number can be cast to unsigned short properly
+	if(temp == LONG_MIN || temp == LONG_MAX || temp <= 0 || temp > USHRT_MAX)
+	{
+		printf(USER_INPUT_ERR);
+		quit();
+	}
+	items_to_remove = (unsigned short)temp;
+		
 
 	// build request for server: heap number (byte), next one short: items_to_remove (network byte order)
 	char client_query[CLIENT_QUERY_SIZE];

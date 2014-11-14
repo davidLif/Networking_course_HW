@@ -20,13 +20,13 @@ int hasGameEnded(unsigned char container)
 int lastMessageAcked(unsigned char container)
 {
 	container >>= ACK_NUM_SHIFTS;
-	return container && 1;
+	return container & 1;
 }
 
 int hasServerWon(unsigned char container)
 {
 	container >>= SERVER_WON_NUM_SHIFTS;
-	return container && 1;
+	return container & 1;
 }
 
 

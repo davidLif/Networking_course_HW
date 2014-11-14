@@ -43,7 +43,7 @@ int main( int argc, const char* argv[] ){
 
 	if (listeningSoc < 0) 
 	{
-		printf("Error: failed to create listening socket: %s\n", strerror(errno));
+		// error occured, message was already printed, quit
 		return 0;
 	}
 
@@ -125,6 +125,7 @@ int initServer(short port){
 	//open IPv4 TCP socket with the default protocol.
 	int listeningSocket= socket(PF_INET, SOCK_STREAM, 0); 
 	if (listeningSocket < 0){
+		printf("Error: failed to create socket: %s\n", strerror(errno));
 		return NETWORK_FUNC_FAILURE;
 	}
 	//fill sockadder struct with correct parameters

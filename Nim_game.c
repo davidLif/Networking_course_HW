@@ -29,7 +29,7 @@ bool makeClientMove (unsigned char heap_num, unsigned short size) {
 
 	unsigned int_heapNum = (unsigned)heap_num;
 
-	if ((unsigned)heaps_array[int_heapNum] < size) 
+	if ((unsigned)heaps_array[int_heapNum] < size || size == 0) 
 		return false;
 	
 	// actually make the move
