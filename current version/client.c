@@ -244,7 +244,7 @@ void handle_user_move()
 
 	print_turn_message();
 
-	if(scanf("%s", &req) != 1)
+	if(scanf("%1s", &req) != 1)
 	{
 		printf(USER_INPUT_ERR);
 		quit();

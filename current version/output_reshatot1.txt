@@ -1,0 +1,613 @@
+user side:
+- arguments (V)
+- user input:
+	
+
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+
+A 1500
+Move accepted
+Heap sizes are 0, 1500, 1500, 1499
+Your turn:
+D 12
+Move accepted
+Heap sizes are 0, 1500, 1499, 1487
+Your turn:
+C 19
+Move accepted
+Heap sizes are 0, 1499, 1480, 1487
+Your turn:
+A 10
+Illegal move
+Heap sizes are 0, 1498, 1480, 1487
+Your turn:
+A 100
+Illegal move
+Heap sizes are 0, 1497, 1480, 1487
+Your turn:
+B 23
+Move accepted
+Heap sizes are 0, 1474, 1480, 1486
+Your turn:
+B 12
+Move accepted
+Heap sizes are 0, 1462, 1480, 1485
+Your turn:
+B 1462
+Move accepted
+Heap sizes are 0, 0, 1480, 1484
+Your turn:
+C 1491
+Illegal move
+Heap sizes are 0, 0, 1480, 1483
+Your turn:
+D 1480
+Move accepted
+Heap sizes are 0, 0, 1479, 3
+Your turn:
+B 1470
+Illegal move
+Heap sizes are 0, 0, 1478, 3
+Your turn:
+C 1470
+Move accepted
+Heap sizes are 0, 0, 7, 3
+Your turn:
+D 2
+Move accepted
+Heap sizes are 0, 0, 6, 1
+Your turn:
+A 1
+Illegal move
+Heap sizes are 0, 0, 5, 1
+Your turn:
+D 1
+Move accepted
+Heap sizes are 0, 0, 4, 0
+Your turn:
+C 2
+Move accepted
+Heap sizes are 0, 0, 1, 0
+Your turn:
+C 1
+Move accepted
+Heap sizes are 0, 0, 0, 0
+You win!
+-----------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost 44444
+nim
+This is a Misere game
+Heap sizes are 20, 20, 20, 20
+Your turn:
+A 20
+Move accepted
+Heap sizes are 0, 20, 20, 19
+Your turn:
+B 19
+Move accepted
+Heap sizes are 0, 1, 19, 19
+Your turn:
+D 19
+Move accepted
+Heap sizes are 0, 1, 18, 0
+Your turn:
+B 16
+Illegal move
+Heap sizes are 0, 1, 17, 0
+Your turn:
+B 12
+Illegal move
+Heap sizes are 0, 1, 16, 0
+Your turn:
+C 13
+Move accepted
+Heap sizes are 0, 1, 2, 0
+Your turn:
+B 0
+Error: invalid arguments given by user
+--------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost 44445
+nim
+This is a Misere game
+Heap sizes are 20, 20, 20, 20
+Your turn:
+D 21
+Illegal move
+Heap sizes are 20, 20, 20, 19
+Your turn:
+D 19
+Move accepted
+Heap sizes are 20, 20, 19, 0
+Your turn:
+A 19
+Move accepted
+Heap sizes are 1, 19, 19, 0
+Your turn:
+B 12
+Move accepted
+Heap sizes are 1, 7, 18, 0
+Your turn:
+C 13
+Move accepted
+Heap sizes are 1, 6, 5, 0
+Your turn:
+A 1
+Move accepted
+Heap sizes are 0, 5, 5, 0
+Your turn:
+B 5
+Move accepted
+Heap sizes are 0, 0, 4, 0
+Your turn:
+C 2
+Move accepted
+Heap sizes are 0, 0, 1, 0
+Your turn:
+C 1
+Move accepted
+Heap sizes are 0, 0, 0, 0
+I win!
+------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost 44447
+nim
+This is a Misere game
+Heap sizes are 20, 20, 20, 20
+Your turn:
+A 20
+Move accepted
+Heap sizes are 0, 20, 20, 19
+Your turn:
+B 20
+Move accepted
+Heap sizes are 0, 0, 19, 19
+Your turn:
+C 19
+Move accepted
+Heap sizes are 0, 0, 0, 18
+Your turn:
+D 17
+Move accepted
+Heap sizes are 0, 0, 0, 0
+You win!
+--------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost 44442
+nim
+This is a Misere game
+Heap sizes are 20, 20, 20, 20
+Your turn:
+D   20
+Move accepted
+Heap sizes are 20, 20, 19, 0
+Your turn:
+C 20
+Illegal move
+Heap sizes are 20, 19, 19, 0
+Your turn:
+A 20
+Move accepted
+Heap sizes are 0, 19, 18, 0
+Your turn:
+B 20
+Illegal move
+Heap sizes are 0, 18, 18, 0
+Your turn:
+B 18
+Move accepted
+Heap sizes are 0, 0, 17, 0
+Your turn:
+C 14
+Move accepted
+Heap sizes are 0, 0, 2, 0
+Your turn:
+C 1
+Move accepted
+Heap sizes are 0, 0, 0, 0
+You win!
+-----------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost 33332
+nim
+This is a Regular game
+Heap sizes are 20, 20, 20, 20
+Your turn:
+A -20
+Error: invalid arguments given by user
+----------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost 33332
+nim
+This is a Regular game
+Heap sizes are 70, 70, 70, 70
+Your turn:
+A 60
+Move accepted
+Heap sizes are 10, 70, 70, 69
+Your turn:
+A 8
+Move accepted
+Heap sizes are 2, 70, 69, 69
+Your turn:
+B 69
+Move accepted
+Heap sizes are 2, 1, 69, 68
+Your turn:
+C 69
+Move accepted
+Heap sizes are 2, 1, 0, 67
+Your turn:
+D 65
+Move accepted
+Heap sizes are 2, 1, 0, 1
+Your turn:
+A 2
+Move accepted
+Heap sizes are 0, 1, 0, 0
+Your turn:
+B 1
+Move accepted
+Heap sizes are 0, 0, 0, 0
+You win!
+student@student-VirtualBox:~/Desktop/networking 1$ 
+
+------------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+A 1200
+Move accepted
+Heap sizes are 300, 1500, 1500, 1499
+Your turn:
+B 3131
+Illegal move
+Heap sizes are 300, 1500, 1499, 1499
+Your turn:
+D 1499
+Move accepted
+Heap sizes are 300, 1499, 1499, 0
+Your turn:
+A 300
+Move accepted
+Heap sizes are 0, 1499, 1498, 0
+Your turn:
+B 1498
+Move accepted
+Heap sizes are 0, 1, 1497, 0
+Your turn:
+C 1394
+Move accepted
+Heap sizes are 0, 1, 102, 0
+Your turn:
+B 2
+Illegal move
+Heap sizes are 0, 1, 101, 0
+Your turn:
+Q
+---------------------------------------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim localhost 31313
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+A 1300
+Move accepted
+Heap sizes are 200, 1500, 1500, 1499
+Your turn:
+A200
+Move accepted
+Heap sizes are 0, 1500, 1499, 1499
+Your turn:
+B 1300
+Move accepted
+Heap sizes are 0, 200, 1499, 1498
+Your turn:
+C  1499
+Move accepted
+Heap sizes are 0, 200, 0, 1497
+Your turn:
+QA
+---------------------------------------------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 31314
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+A 30
+Move accepted
+Heap sizes are 1470, 1500, 1500, 1499
+Your turn:
+A 1430
+Move accepted
+Heap sizes are 40, 1500, 1499, 1499
+Your turn:
+A 39
+Move accepted
+Heap sizes are 1, 1499, 1499, 1499
+Your turn:
+B 1498
+Move accepted
+Heap sizes are 1, 1, 1499, 1498
+Your turn:
+C 1349
+Move accepted
+Heap sizes are 1, 1, 150, 1497
+Your turn:
+D 1239
+Move accepted
+Heap sizes are 1, 1, 150, 257
+Your turn:
+A 2
+Disconnected from server
+----------------------------------------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 31314
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+Q
+student@student-VirtualBox:~/Desktop/networking 1$ 
+
+SERVER SIDE (on disconnect):
+
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim-server 1500 0 31314
+Error: failed to receive data, client closed connection
+
+------------------------------------------------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 31314
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+YOLO39
+Error: invalid arguments given by user
+------------------------------------------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 31314
+Error: Failed to connect to server: Connection refused
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 31314
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+AA 39
+Error: invalid arguments given by user
+------------------------------------------------------------------------
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 31314
+nim
+This is a Regular game
+Heap sizes are 1500, 1500, 1500, 1500
+Your turn:
+D 1500
+Move accepted
+Heap sizes are 1500, 1500, 1499, 0
+Your turn:
+C 122
+Disconnected from server
+student@student-VirtualBox:~/Desktop/networking 1$ 
+-----------------------------------------------------------------------------
+
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 31333
+nim
+This is a Misere game
+Heap sizes are 1200, 1200, 1200, 1200
+Your turn:
+A 3000
+Illegal move
+Heap sizes are 1200, 1200, 1200, 1199
+Your turn:
+A 200
+Move accepted
+Heap sizes are 1000, 1200, 1199, 1199
+Your turn:
+A 200
+Move accepted
+Heap sizes are 800, 1199, 1199, 1199
+Your turn:
+A 200
+Move accepted
+Heap sizes are 600, 1199, 1199, 1198
+Your turn:
+A 200
+Move accepted
+Heap sizes are 400, 1199, 1198, 1198
+Your turn:
+A 200
+Move accepted
+Heap sizes are 200, 1198, 1198, 1198
+Your turn:
+A 100
+Move accepted
+Heap sizes are 100, 1198, 1198, 1197
+Your turn:
+B 300
+Move accepted
+Heap sizes are 100, 898, 1197, 1197
+Your turn:
+C 139
+Move accepted
+Heap sizes are 100, 898, 1058, 1196
+Your turn:
+D 131
+Move accepted
+Heap sizes are 100, 898, 1058, 1064
+Your turn:
+C 31
+Move accepted
+Heap sizes are 100, 898, 1027, 1063
+Your turn:
+A 121
+Illegal move
+Heap sizes are 100, 898, 1027, 1062
+Your turn:
+A2131
+Illegal move
+Heap sizes are 100, 898, 1027, 1061
+Your turn:
+C 31
+Move accepted
+Heap sizes are 100, 898, 996, 1060
+Your turn:
+D 31
+Move accepted
+Heap sizes are 100, 898, 996, 1028
+Your turn:
+A 31
+Move accepted
+Heap sizes are 69, 898, 996, 1027
+Your turn:
+A 31
+Move accepted
+Heap sizes are 38, 898, 996, 1026
+Your turn:
+A 53
+Illegal move
+Heap sizes are 38, 898, 996, 1025
+Your turn:
+D 1000 
+Move accepted
+Heap sizes are 38, 898, 995, 25
+Your turn:
+C 990
+Move accepted
+Heap sizes are 38, 897, 5, 25
+Your turn:
+C 897
+Illegal move
+Heap sizes are 38, 896, 5, 25
+Your turn:
+B 896
+Move accepted
+Heap sizes are 37, 0, 5, 25
+Your turn:
+A 35
+Move accepted
+Heap sizes are 2, 0, 5, 24
+Your turn:
+D 21
+Move accepted
+Heap sizes are 2, 0, 4, 3
+Your turn:
+C 1
+Move accepted
+Heap sizes are 2, 0, 3, 2
+Your turn:
+D 1
+Move accepted
+Heap sizes are 2, 0, 2, 1
+Your turn:
+A 1
+Move accepted
+Heap sizes are 1, 0, 1, 1
+Your turn:
+C 1
+Move accepted
+Heap sizes are 1, 0, 0, 0
+Your turn:
+A 1
+Move accepted
+Heap sizes are 0, 0, 0, 0
+I win!
+student@student-VirtualBox:~/Desktop/networking 1$ 
+
+--------------------------------------------------------
+USER SIDE [ in our implementation if input starts with Q we assume user wants to exit, simply dont read the rest of it]
+
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1
+nim
+This is a Misere game
+Heap sizes are 1300, 1300, 1300, 1300
+Your turn:
+A 1300
+Move accepted
+Heap sizes are 0, 1300, 1300, 1299
+Your turn:
+D 1200
+Move accepted
+Heap sizes are 0, 1300, 1299, 99
+Your turn:
+C 1299
+Move accepted
+Heap sizes are 0, 1299, 0, 99
+Your turn:
+QFSDFSDTRTEJTHGERJGLKDFJGLKJDGJREJGEKJTEKRJTRE
+student@student-VirtualBox:~/Desktop/networking 1$ 
+
+
+SERVER SIDE;
+
+
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim-server -200
+Error: invalid arguments given to server
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim-server 1600
+Error: invalid arguments given to server
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim-server 1300 2
+Error: invalid arguments given to server
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim-server 1300 -1
+Error: invalid arguments given to server
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim-server 1300 yolo
+Error: invalid arguments given to server
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim-server 1300 1
+Error: failed to receive data, client closed connection
+student@student-VirtualBox:~/Desktop/networking 1$ 
+
+--------------------------------------------------------
+
+student@student-VirtualBox:~/Desktop/networking 1$ ./nim 127.0.0.1 13000
+nim
+This is a Regular game
+Heap sizes are 1300, 1300, 1300, 1300
+Your turn:
+ B 1200
+Move accepted
+Heap sizes are 1300, 100, 1300, 1299
+Your turn:
+C 1200
+Move accepted
+Heap sizes are 1299, 100, 100, 1299
+Your turn:
+D      1200
+Move accepted
+Heap sizes are 1298, 100, 100, 99
+Your turn:
+A 12934
+Illegal move
+Heap sizes are 1297, 100, 100, 99
+Your turn:
+B  200
+Illegal move
+Heap sizes are 1296, 100, 100, 99
+Your turn:
+A 1295
+Move accepted
+Heap sizes are 1, 100, 99, 99
+Your turn:
+B 99
+Move accepted
+Heap sizes are 1, 1, 99, 98
+Your turn:
+C 98
+Move accepted
+Heap sizes are 1, 1, 1, 97
+Your turn:
+D 98
+Illegal move
+Heap sizes are 1, 1, 1, 96
+Your turn:
+D 95
+Move accepted
+Heap sizes are 1, 1, 1, 0
+Your turn:
+D 1
+Illegal move
+Heap sizes are 1, 1, 0, 0
+Your turn:
+D 1
+Illegal move
+Heap sizes are 1, 0, 0, 0
+Your turn:
+ D    1
+Illegal move
+Heap sizes are 0, 0, 0, 0
+I win!
